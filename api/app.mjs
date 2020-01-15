@@ -8,12 +8,13 @@ import dotenv from 'dotenv'
 /**
  * Middlewares
  */
-import * as auth from './middlewares/auth'
+import * as AuthMiddleware from './middlewares/auth'
 
 
 /**
  * Routes imports
  */
+import AuthRoutes from './routes/AuthRoutes'
 import UserRoutes from './routes/UserRoutes';
 
 dotenv.config();
@@ -30,7 +31,8 @@ app.use(express.json());
 /**
  * App routes
  */
-app.use('/users', auth.verifyAuth, UserRoutes)
+app.use('/auth', AuthRoutes)
+app.use('/users', AuthMiddleware.verifyAuth, UserRoutes)
 
 
 /**
