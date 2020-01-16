@@ -1,4 +1,4 @@
-import {app} from './api/app'
+import {app} from './api/app.mjs'
 
 import dotenv from 'dotenv'
 

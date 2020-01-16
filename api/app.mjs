@@ -2,20 +2,20 @@
  * Configuration
  */
 import express from 'express'
-import * as db from './utils/db' 
+import * as db from './utils/db.mjs' 
 import dotenv from 'dotenv'
 
 /**
  * Middlewares
  */
-import * as AuthMiddleware from './middlewares/auth'
+import * as AuthMiddleware from './middlewares/auth.mjs'
 
 
 /**
  * Routes imports
  */
-import AuthRoutes from './routes/AuthRoutes'
-import UserRoutes from './routes/UserRoutes';
+import AuthRoutes from './routes/AuthRoutes.mjs'
+import UserRoutes from './routes/UserRoutes.mjs';
 
 dotenv.config();
 
@@ -39,7 +39,7 @@ app.use('/users', AuthMiddleware.verifyAuth, UserRoutes)
  * TESTS
  */
 app.get('/', (req, res) => {
-    res.send('hola');
+    res.send('Plantas API Working');
 });
 
 

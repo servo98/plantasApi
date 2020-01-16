@@ -1,4 +1,4 @@
-import User from '../models/UserModel'
+import User from '../models/UserModel.mjs'
 
 
 export function index(req, res) {

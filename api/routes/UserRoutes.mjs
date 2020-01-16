@@ -1,5 +1,5 @@
 import express from 'express'
-import * as UserController from '../controllers/UserController'
+import * as UserController from '../controllers/UserController.mjs'
 const api = express.Router();
 
 api.get('/', UserController.index);
