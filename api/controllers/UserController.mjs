@@ -36,6 +36,8 @@ export function create(req, res) {
   
 }
 
+
+
 export function update(req, res) {
     console.log('TODO: actualizar usuario');
 }
