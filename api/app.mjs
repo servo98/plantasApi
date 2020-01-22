@@ -26,13 +26,13 @@ db.connect(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, proces
  */
 const app = express();
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: false }))
 
 /**
  * App routes
  */
 app.use('/auth', AuthRoutes)
-app.use('/users', AuthMiddleware.verifyAuth, UserRoutes)
+app.use('/users',  UserRoutes)
 
 
 /**
