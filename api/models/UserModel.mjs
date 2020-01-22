@@ -25,4 +25,9 @@ export default mongoose.model('User', new mongoose.Schema({
         required: true,
         default: 'other'
     },
+    password: {
+        type: String,
+        required: true,
+        minlength: 8,
+    }
 }));
