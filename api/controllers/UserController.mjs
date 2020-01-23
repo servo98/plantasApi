@@ -2,7 +2,13 @@ import User from '../models/UserModel.mjs'
 
 
 export function index(req, res) {
-    console.log('TODO: mostrar usuarios');
+    User.find({}, (err, users) => {
+        if(err){
+            res.status(500).send({message: 'Error al buscar usuarios'});
+        }else{
+            res.send(users)
+        }
+    });
 }
 
 export function show(req, res) {
