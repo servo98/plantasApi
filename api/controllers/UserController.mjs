@@ -29,11 +29,7 @@ export function create(req, res) {
         }else{
             console.log(user)
         }
-
-
-     })
-
-  
+    })
 }
 
 export function update(req, res) {
