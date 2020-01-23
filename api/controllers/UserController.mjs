@@ -37,9 +37,26 @@ export function create(req, res) {
 }
 
 export function update(req, res) {
-    console.log('TODO: actualizar usuario');
+    User.findOneAndUpdate({"_id":req.params.id},req.body,{
+        new: true
+    },
+    (err, user) => {
+        if(err){
+            res.status(500).send("error")
+       }else{
+            res.send({user})
+       }
+   })
 }
 
-export function destroy(req, res) {
-    console.log('TODO: borrar usuario');
+export function destroy(req, res){
+    User.findOneAndDelete({"_id":req.params.id},req.body,
+    (err, user) => {
+        if(err){
+            res.status(500).send("error")
+       }else{
+            res.send({user})
+       }
+   })
 }
+
