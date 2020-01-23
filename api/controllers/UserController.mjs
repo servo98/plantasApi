@@ -29,8 +29,6 @@ export function create(req, res) {
         }else{
             console.log(user)
         }
-
-
      })
 
   

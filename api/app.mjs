@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
  * 
  */
 
-app.use(function (_, res, __) {
-    res.status(404).send("Data not found!")
+app.use(function (_, res) {
+    res.status(404).send("Recurso no encontrado")
 })
 export {app}
