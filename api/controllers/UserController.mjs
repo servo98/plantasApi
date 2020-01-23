@@ -10,7 +10,6 @@ export function show(req, res) {
 }
 
 export function create(req, res) {
-
     
     const newUser = new User({
         firstName: req.body.firstName,
@@ -21,13 +20,12 @@ export function create(req, res) {
         gender: req.body.gender,
         password: req.body.password,
 
-      });
-  
+    });
      newUser.save( (err, user) => {
-         if(err){
-             console.log("error", err)
+        if(err){
+            res.status(500).send({message: `No se pudo crear el usuario ${err}`});
         }else{
-            console.log(user)
+            res.send({user});
         }
     })
 }
