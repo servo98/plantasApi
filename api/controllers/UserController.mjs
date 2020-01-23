@@ -33,7 +33,9 @@ export function create(req, res) {
 }
 
 export function update(req, res) {
-    User.findOneAndUpdate({"_id":req.params.id},req.body,
+    User.findOneAndUpdate({"_id":req.params.id},req.body,{
+        new: true
+    },
     (err, user) => {
         if(err){
             res.status(400).send("error")
@@ -43,6 +45,14 @@ export function update(req, res) {
    })
 }
 
-export function destroy(req, res) {
-    console.log('TODO: borrar usuario');
+export function destroy(req, res){
+    User.findOneAndDelete({"_id":req.params.id},req.body,
+    (err, user) => {
+        if(err){
+            res.status(400).send("error")
+       }else{
+            res.send({user})
+       }
+   })
 }
+
