@@ -49,7 +49,7 @@ export function destroy(req, res){
     User.findOneAndDelete({"_id":req.params.id},req.body,
     (err, user) => {
         if(err){
-            res.status(400).send("error")
+            res.status(500).send("error")
        }else{
             res.send({user})
        }
