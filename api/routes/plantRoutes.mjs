@@ -1,5 +1,5 @@
 import express from 'express'
-import * as plantController from '../controllers/PlantController.mjs'
+import * as PlantController from '../controllers/PlantController.mjs'
 const api = express.Router();
 api.get('/', PlantController.index);
 api.get('/:id', PlantController.show)
