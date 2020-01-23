@@ -1,10 +1,10 @@
 import express from 'express'
-import * as plantController from '../controllers/plantController.mjs'
+import * as plantController from '../controllers/PlantController.mjs'
 const api = express.Router();
-api.get('/', plantController.index);
-api.get('/:id', plantController.show)
-api.post('/', plantController.create);
-api.put('/:id', plantController.update)
-api.delete('/:id', plantController.destroy)
+api.get('/', PlantController.index);
+api.get('/:id', PlantController.show)
+api.post('/', PlantController.create);
+api.put('/:id', PlantController.update)
+api.delete('/:id', PlantController.destroy)
 
 export default api;
