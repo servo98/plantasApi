@@ -12,7 +12,13 @@ export function index(req, res) {
 }
 
 export function show(req, res) {
-    console.log('TODO: mostrar un usuario');
+    User.find({_id: req.params.id}, (err, user) => {
+        if(err){
+            res.status(404).send({message: 'Usuario no encontrado'})
+        }else{
+            res.send({user})
+        }
+    })
 }
 
 export function create(req, res) {
