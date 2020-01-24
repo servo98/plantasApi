@@ -6,12 +6,6 @@ import * as db from './utils/db.mjs'
 import dotenv from 'dotenv'
 
 /**
- * Middlewares
- */
-import * as AuthMiddleware from './middlewares/auth.mjs'
-
-
-/**
  * Routes imports
  */
 import AuthRoutes from './routes/AuthRoutes.mjs';
