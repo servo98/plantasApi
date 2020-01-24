@@ -19,5 +19,9 @@ export default mongoose.model('User', new mongoose.Schema({
         type: String,
         required: true,
         enum: ['pequeña','mediana','grande']
+    },
+    image:{
+        type: String,
+        required: true
     }
 }))
