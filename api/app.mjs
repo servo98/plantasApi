@@ -14,9 +14,9 @@ import * as AuthMiddleware from './middlewares/auth.mjs'
 /**
  * Routes imports
  */
-import AuthRoutes from './routes/AuthRoutes.mjs'
+import AuthRoutes from './routes/AuthRoutes.mjs';
 import UserRoutes from './routes/UserRoutes.mjs';
-
+import PlantRoutes from './routes/PlantRoutes.mjs';
 dotenv.config();
 
 db.connect(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, process.env.DB_CLUSTER);
@@ -33,6 +33,7 @@ app.use(express.urlencoded({ extended: false }))
  */
 app.use('/auth', AuthRoutes)
 app.use('/users',  UserRoutes)
+app.use('/plants', PlantRoutes)
 
 
 /**
