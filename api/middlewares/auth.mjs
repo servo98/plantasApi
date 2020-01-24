@@ -6,6 +6,7 @@ export function verifyAuth(req, res, next) {
 
     try {
         const payload = jwt.decode(req.headers.auth, process.env.JWT_TOKEN_SECRET);
+        req.body.userId = payload.id
         //expira
         // if(payload.exp) {
         //     return res.status(401).send({message: 'Token expired'})
