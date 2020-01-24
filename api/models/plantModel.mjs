@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-export default mongoose.model('User', new mongoose.Schema({
+export default mongoose.model('Plant', new mongoose.Schema({
 
     name: {
         type: String,
@@ -9,6 +9,12 @@ export default mongoose.model('User', new mongoose.Schema({
         type: String,
         required: true,
         enum: ['luz','sombra','ambas']
+    },
+    cantidadDeLuz:{
+        type: String,
+        required: true,
+        enum: ['constante','media','no necesaria']
+
     },
     agua: {
         type: String,
@@ -20,8 +26,18 @@ export default mongoose.model('User', new mongoose.Schema({
         required: true,
         enum: ['pequeña','mediana','grande']
     },
+    stock: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: 0, 
+    },   
     image:{
         type: String,
         required: true
-    }
+    },
+    
 }))
+
+
+    
