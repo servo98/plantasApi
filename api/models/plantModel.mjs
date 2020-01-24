@@ -19,5 +19,15 @@ export default mongoose.model('User', new mongoose.Schema({
         type: String,
         required: true,
         enum: ['pequeña','mediana','grande']
+    },
+    stock: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: 0, 
     }
+    
 }))
+
+
+    
