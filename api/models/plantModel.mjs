@@ -25,7 +25,11 @@ export default mongoose.model('User', new mongoose.Schema({
         required: true,
         default: 0,
         min: 0, 
-    }
+    },   
+    image:{
+        type: String,
+        required: true
+    },
     
 }))
 
