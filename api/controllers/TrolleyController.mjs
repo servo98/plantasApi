@@ -1,5 +1,5 @@
 import Trolley from '../models/TrolleyModel.mjs'
-
+import User from '../models/UserModel.mjs'
 export function index(__, res) {
     Trolley.find({}, (err, plant) => {
         if(err){
@@ -19,22 +19,21 @@ export function show(req, res) {
         }
     })
 }
-/*
+
 export function create(req, res){
+    console.log(req.body.userId)
     const newTrolley = new Trolley({
-        user: req.body
-        
-        ,
+        user: req.body.userId
         });
     newTrolley.save( (err, Trolley) => {
         if(err){
-            res.status(500).send({message: 'Error al crear nuevo carro'});
+            res.status(500).send({message: 'Error al crear nuevo carro', err: err});
        }else{
            res.send(Trolley);
        }
     })
 }
-*/
+
 export function update(req, res) {
     Trolley.findOneAndUpdate({"_id":req.params.id},
         req.body,
