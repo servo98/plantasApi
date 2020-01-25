@@ -1,13 +1,14 @@
 import Trolley from '../models/TrolleyModel.mjs'
 import User from '../models/UserModel.mjs'
 export function index(__, res) {
-    Trolley.find({}, (err, plant) => {
-        if(err){
-            res.status(500).send({message: 'Error al buscar carro de compra'});
-        }else{
-            res.send(plant)
-        }
-    });
+    res.send('Hol desde trolley controller')
+    // Trolley.find({}, (err, plant) => {
+    //     if(err){
+    //         res.status(500).send({message: 'Error al buscar carro de compra'});
+    //     }else{
+    //         res.send(plant)
+    //     }
+    // });
 }
 
 export function show(req, res) {

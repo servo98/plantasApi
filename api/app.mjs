@@ -11,7 +11,7 @@ import dotenv from 'dotenv'
 import AuthRoutes from './routes/AuthRoutes.mjs';
 import UserRoutes from './routes/UserRoutes.mjs';
 import PlantRoutes from './routes/PlantRoutes.mjs';
-import TrolleyRoutes from './routes/TrolleyRoutes.mjs';
+
 dotenv.config();
 
 db.connect(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, process.env.DB_CLUSTER);
@@ -29,7 +29,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/auth', AuthRoutes)
 app.use('/users',  UserRoutes)
 app.use('/plants', PlantRoutes)
-app.use('/trolley',TrolleyRoutes)
 
 
 /**
@@ -38,7 +37,6 @@ app.use('/trolley',TrolleyRoutes)
 app.get('/', (req, res) => {
     res.send('Plantas API Working');
 });
-
 
 /**
  * 
