@@ -10,11 +10,11 @@ export function index(__, res) {
 }
 
 export function show(req, res) {
-    Trolley.find({"user": req.params.id}, (err, user) => {
+    Trolley.find({"user": req.params.id}, (err, trolley) => {
         if(err){
             res.status(404).send({message: 'Carro de compra no encontrado'});
         }else{
-            res.send({user});
+            res.send({trolley});
         }
     })
 }
@@ -23,16 +23,14 @@ export function create(req, res){
          const newTrolley = new Trolley({
         user: req.body.userId
         });
-    newTrolley.save( (err, Trolley) => {
+    newTrolley.save( (err, trolley) => {
         if(err){
             res.status(500).send({message: 'Error al crear nuevo carro', err: err});
        }else{
-           res.send(Trolley);
+           res.send(trolley);
        }
     })
 }
-
-
 
 export function update(req, res) {
     Trolley.findOneAndUpdate({"_id":req.params.id},
@@ -40,11 +38,11 @@ export function update(req, res) {
         {
             new: true
         },
-    (err, Trolley) => {
+    (err, trolley) => {
         if(err){
             res.status(500).send("error")
         } else {
-            res.send({Trolley})
+            res.send({trolley})
        }
    })
 }

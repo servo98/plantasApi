@@ -1,13 +1,21 @@
 import express from 'express'
 import * as TrolleyController from '../controllers/TrolleyController.mjs'
 import * as AuthMiddleware from '../middlewares/auth.mjs'
+
 const api = express.Router();
 
-api.get('/', TrolleyController.index);
-api.get('/:id',[AuthMiddleware.verifyAuth], TrolleyController.show)
-api.post('/', [AuthMiddleware.verifyAuth],TrolleyController.create);
-api.put('/:id', TrolleyController.update)
-api.delete('/:id', [AuthMiddleware.verifyAuth],TrolleyController.destroy)
+api.route('/')
+    .get(TrolleyController.index)
+    .post(TrolleyController.create);
+
+api.route('/:id')
+    .get(TrolleyController.show)
+    .put( TrolleyController.update)
+    .delete( TrolleyController.destroy);
+
+// add, delete plants trolley//
+api.post('/add/:id', TrolleyController.add);
+api.delete('/delete/:id', TrolleyController.delete)
 
 export default api;
 
