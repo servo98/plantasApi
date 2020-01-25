@@ -61,7 +61,7 @@ export function destroy(req, res){
         if(err){
             res.status(500).send("error")
        }else{
-            res.send({user})
+            res.send({message: 'User deleted', user})
        }
    })
 }

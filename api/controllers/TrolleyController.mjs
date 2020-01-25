@@ -44,7 +44,7 @@ export function update(req, res) {
     (err, Trolley) => {
         if(err){
             res.status(500).send("error")
-       }else{
+        } else {
             res.send({Trolley})
        }
    })

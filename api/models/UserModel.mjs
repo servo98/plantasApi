@@ -31,5 +31,11 @@ export default mongoose.model('User', new mongoose.Schema({
         type: String,
         required: true,
         minlength: 8,
+    },
+    rol: {
+        type: String,
+        required: true,
+        enum: ['admin, user'],
+        default: 'user'
     }
 }));
