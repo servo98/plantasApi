@@ -12,6 +12,6 @@ api.put('/:id', UserController.update)
 api.delete('/:id', UserController.destroy)
 
 
-api.use('/:id/trolley', [AuthMiddleware.verifyAuth], TrolleyRoutes)
+api.use('/:id/trolley', [AuthMiddleware.verifyAuth, AuthMiddleware.verifyUser], TrolleyRoutes)
 
 export default api;

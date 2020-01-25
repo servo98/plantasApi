@@ -1,18 +1,16 @@
 import Trolley from '../models/TrolleyModel.mjs'
-import User from '../models/UserModel.mjs'
 export function index(__, res) {
-    res.send('Hol desde trolley controller')
-    // Trolley.find({}, (err, plant) => {
-    //     if(err){
-    //         res.status(500).send({message: 'Error al buscar carro de compra'});
-    //     }else{
-    //         res.send(plant)
-    //     }
-    // });
+    Trolley.find({}, (err, plant) => {
+        if(err){
+            res.status(500).send({message: 'Error al buscar carro de compra'});
+        }else{
+            res.send(plant)
+        }
+    });
 }
 
 export function show(req, res) {
-    Trolley.find({_id: req.params.id}, (err, user) => {
+    Trolley.find({"user": req.params.id}, (err, user) => {
         if(err){
             res.status(404).send({message: 'Carro de compra no encontrado'});
         }else{
@@ -22,8 +20,7 @@ export function show(req, res) {
 }
 
 export function create(req, res){
-    console.log(req.body.userId)
-    const newTrolley = new Trolley({
+         const newTrolley = new Trolley({
         user: req.body.userId
         });
     newTrolley.save( (err, Trolley) => {
@@ -34,6 +31,8 @@ export function create(req, res){
        }
     })
 }
+
+
 
 export function update(req, res) {
     Trolley.findOneAndUpdate({"_id":req.params.id},
@@ -51,7 +50,8 @@ export function update(req, res) {
 }
 
 export function destroy(req, res){
-    Trolley.findOneAndDelete({"_id":req.params.id},req.body,
+    console.log(req.params.id)
+    Trolley.findOneAndDelete({"user":req.params.id},
     (err, deleted) => {
         if(err){
             res.status(500).send("error");
