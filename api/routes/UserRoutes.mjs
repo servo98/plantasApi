@@ -1,17 +1,21 @@
 import express from 'express'
 import * as UserController from '../controllers/UserController.mjs'
-import * as AuthMiddleware from '../middlewares/auth.mjs'
+import {verifyAuth, verifyUser} from '../middlewares/auth.mjs'
 import TrolleyRoutes from './TrolleyRoutes.mjs';
 
 const api = express.Router();
 
-api.get('/', UserController.index);
-api.get('/:id',[AuthMiddleware.verifyAuth, AuthMiddleware.verifyUser], UserController.show)
-api.post('/', UserController.create);
-api.put('/:id', UserController.update)
-api.delete('/:id', UserController.destroy)
+api.route('/')
+    .get(UserController.index)
+    .post(UserController.create);
+
+api.use('/:id', [verifyAuth, verifyUser])
+api.route('/:id')
+    .get(UserController.show)
+    .put(UserController.update)
+    .delete(UserController.destroy);
 
 
-api.use('/:id/trolley', [AuthMiddleware.verifyAuth, AuthMiddleware.verifyUser], TrolleyRoutes)
+api.use('/:id/trolley', TrolleyRoutes);
 
 export default api;
