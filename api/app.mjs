@@ -8,8 +8,9 @@ import dotenv from 'dotenv'
 /**
  * Routes imports
  */
-import AuthRoutes from './routes/AuthRoutes.mjs'
+import AuthRoutes from './routes/AuthRoutes.mjs';
 import UserRoutes from './routes/UserRoutes.mjs';
+import PlantRoutes from './routes/PlantRoutes.mjs';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: false }))
  */
 app.use('/auth', AuthRoutes)
 app.use('/users',  UserRoutes)
+app.use('/plants', PlantRoutes)
 
 
 /**
@@ -35,7 +37,6 @@ app.use('/users',  UserRoutes)
 app.get('/', (req, res) => {
     res.send('Plantas API Working');
 });
-
 
 /**
  * 

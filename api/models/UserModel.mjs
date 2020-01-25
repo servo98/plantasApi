@@ -1,4 +1,5 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+
 
 export default mongoose.model('User', new mongoose.Schema({
     firstName: {
@@ -11,6 +12,7 @@ export default mongoose.model('User', new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
     },
     birthday: {
         type: Date,
@@ -29,5 +31,11 @@ export default mongoose.model('User', new mongoose.Schema({
         type: String,
         required: true,
         minlength: 8,
+    },
+    rol: {
+        type: String,
+        required: true,
+        enum: ['admin, user'],
+        default: 'user'
     }
 }));

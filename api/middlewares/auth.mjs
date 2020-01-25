@@ -20,3 +20,14 @@ export function verifyAuth(req, res, next) {
     next()
 
 }
+
+export function verifyUser(req, res, next) {
+    if(!req.body.userId){
+        return res.status(403).send({message: "User id missing"});
+    } else if(req.body.userId != req.params.id) {
+            res.status(403).send('Invalid user');
+    } else {
+        next()
+    }
+
+}

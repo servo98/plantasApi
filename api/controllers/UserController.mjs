@@ -12,9 +12,6 @@ export function index(req, res) {
 }
 
 export function show(req, res) {
-    if(req.body.userId != req.params.id) {
-        return res.status(403).send('Usuario no autorizado');
-    }
     User.find({_id: req.params.id}, (err, user) => {
         if(err){
             res.status(404).send({message: 'Usuario no encontrado'})
@@ -64,7 +61,7 @@ export function destroy(req, res){
         if(err){
             res.status(500).send("error")
        }else{
-            res.send({user})
+            res.send({message: 'User deleted', user})
        }
    })
 }
