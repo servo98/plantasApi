@@ -20,8 +20,8 @@ export function show(req, res) {
     })
 }
 
-export function create(req, res){
-    const newPlant = new plant({
+export function create(req, res) {
+    const newPlant = new Plant({
         name: req.body.name,
         especie: req.body.especie,
         agua: req.body.agua,

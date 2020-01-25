@@ -7,7 +7,7 @@ api.get('/', TrolleyController.index);
 api.get('/:id',[AuthMiddleware.verifyAuth], TrolleyController.show)
 api.post('/', [AuthMiddleware.verifyAuth],TrolleyController.create);
 api.put('/:id', TrolleyController.update)
-api.delete('/:id', TrolleyController.destroy)
+api.delete('/:id', [AuthMiddleware.verifyAuth],TrolleyController.destroy)
 
 export default api;
 
