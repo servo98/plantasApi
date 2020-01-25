@@ -15,7 +15,6 @@ api.route('/:id')
     .put(UserController.update)
     .delete(UserController.destroy);
 
-
 api.use('/:id/trolley', TrolleyRoutes);
 
 export default api;
