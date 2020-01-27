@@ -59,3 +59,11 @@ export function destroy(req, res){
        }
    })
 }
+
+export function add() {
+
+} 
+
+export function remove() {
+    
+} 
