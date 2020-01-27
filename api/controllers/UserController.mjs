@@ -1,5 +1,5 @@
 import User from '../models/UserModel.mjs'
-
+import bcrypt from 'bcrypt'
 
 export function index(req, res) {
     User.find({}, (err, users) => {
@@ -22,21 +22,25 @@ export function show(req, res) {
 }
 
 export function create(req, res) {
-    
     const newUser = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
         birthday: req.body.birthday,
         phone: req.body.phone,
-        gender: req.body.gender,
-        password: req.body.password,
-
+        gender: req.body.gender
+        
     });
-     newUser.save( (err, user) => {
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
         if(err){
+            return res.status(500).send({message: `No se pudo crear el usuario ${err}`});
+        }
+        newUser.password = hash;
+    });
+    newUser.save( (err, user) => {
+        if(err) {
             res.status(500).send({message: `No se pudo crear el usuario ${err}`});
-        }else{
+        } else {
             res.send({user});
         }
     })
