@@ -1,4 +1,5 @@
 import Trolley from '../models/TrolleyModel.mjs'
+
 export function index(__, res) {
     Trolley.find({}, (err, plant) => {
         if(err){
