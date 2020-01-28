@@ -12,7 +12,7 @@ export function index(__, res) {
 }
 
 export function show(req, res) {
-    Trolley.find({"user": req.params.id}, (err, trolley) => {
+    Trolley.find({"_id": req.params.id}, (err, trolley) => {
         if(err){
             res.status(404).send({message: 'Carro de compra no encontrado'});
         }else{
@@ -22,9 +22,9 @@ export function show(req, res) {
 }
 
 export function create(req, res){
-         const newTrolley = new Trolley({
+    const newTrolley = new Trolley({
         user: req.body.userId
-        });
+    });
     newTrolley.save( (err, trolley) => {
         if(err){
             res.status(500).send({message: 'Error al crear nuevo carro', err: err});
@@ -50,8 +50,7 @@ export function update(req, res) {
 }
 
 export function destroy(req, res){
-    console.log(req.params.id)
-    Trolley.findOneAndDelete({"user":req.params.id},
+    Trolley.findOneAndDelete({"_id":req.params.id},
     (err, deleted) => {
         if(err){
             res.status(500).send("error");
@@ -64,22 +63,27 @@ export function destroy(req, res){
 
 //buscar carrito, buscar planta y hacerle un push 
 export function add(req,res){
-    User.findById(req.params.id,(err, plant) => {
-    if(err){
-        res.status(500).send({message: 'Error planta no existe', err: err});
-    }else{
-        Trolley.findById(req.params.id,(err,troll) => {
-            if(err){
-                res.status(500).send({message: 'Error carro no existe', err: err});
-            }else{
-                trolley.push(plant)
-            }
+    Plant.findById(req.params.id_plant,(err, plant) => {
+        if(err)
+            return res.status(500).send({message: 'Error buscando planta', err});
+        
+        if(!plant)
+            return res.status(404).send({message: 'No se encontró la planta seleccionada'})
+
+        Trolley.findById(req.params.id, (err2,troll) => {
+            if(err2)
+                return res.status(500).send({message: 'Error buscando carrito', err2});
+            if(!troll)
+                return res.status(404).send({message: 'Carrito no encontrado'})
+            
+            troll.plants.push(plant._id)
+            troll.save((err, trolley) => {
+                if(err)
+                    return res.status(500).send({message: 'Error al actualizar carrito'})
+                return res.send(trolley)
+            })
         })
-    }
    })
-
-
-
 }
 
 export function remove(req,res){
