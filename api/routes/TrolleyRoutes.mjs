@@ -1,6 +1,6 @@
 import express from 'express'
 import * as TrolleyController from '../controllers/TrolleyController.mjs'
-import {verifyAuth, verifyUser} from '../middlewares/auth.mjs'
+import {verifyAuth} from '../middlewares/auth.mjs'
 
 const api = express.Router();
 
