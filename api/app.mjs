@@ -11,6 +11,7 @@ import dotenv from 'dotenv'
 import AuthRoutes from './routes/AuthRoutes.mjs';
 import UserRoutes from './routes/UserRoutes.mjs';
 import PlantRoutes from './routes/PlantRoutes.mjs';
+import TrolleyRoutes from './routes/TrolleyRoutes.mjs';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/auth', AuthRoutes)
 app.use('/users',  UserRoutes)
 app.use('/plants', PlantRoutes)
+app.use('/trolleys', TrolleyRoutes)
 
 
 /**
