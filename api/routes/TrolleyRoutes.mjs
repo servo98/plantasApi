@@ -5,7 +5,7 @@ import * as TrolleyController from '../controllers/TrolleyController.mjs'
 const api = express.Router();
 
 api.route('/')
-    .get(TrolleyController.index)
+    .get((req, res) => console.log('22222'))
     .post(TrolleyController.create);
 
 api.route('/:id')
@@ -14,7 +14,7 @@ api.route('/:id')
     .delete( TrolleyController.destroy);
 
 // add, delete plants trolley//
-api.post('/add/:id', TrolleyController.add);
+api.post('/add/:idPlanta', TrolleyController.add);
 api.delete('/delete/:id', TrolleyController.remove)
 
 export default api;
