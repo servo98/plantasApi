@@ -1,5 +1,6 @@
 import Trolley from '../models/TrolleyModel.mjs'
 import Plant from '../models/PlantModel.mjs'
+
 export function index(__, res) {
     Trolley.find({}, (err, plant) => {
         if(err){
@@ -86,12 +87,25 @@ export function add(req,res){
 }
 
 export function remove(req,res){
-    newPlantTrolley.findOneAndDelete({"user":req.params.id},
-    (err, remove) => {
-        if(err){
-            res.status(500).send("error");
-       }else{
-            res.send({message: 'Carrito vaciado exitosamente', remove});
-       }
-   })
+
+    Trolley.findById(req.params.id, (err,troll) => {
+        if(err)
+            return res.status(500).send({message: 'Error buscando carrito', err});
+        if(!troll)
+            return res.status(404).send({message: 'Carrito no encontrado'})
+        
+        const indexOfPlant = troll.plants.indexOf(req.params.id_plant)
+        if(indexOfPlant == -1)
+            return res.status(404).send({message: 'No existe esa planta en el carrito seleccionado'})
+        
+        
+        troll.plants.splice(indexOfPlant, 1)
+        
+        troll.save((err, trolley) => {
+            if(err)
+                return res.status(500).send({message: 'Error al actualizar carrito'})
+            return res.send({message: 'Carrito actualizado', trolley})
+        })
+    })
+        
 }

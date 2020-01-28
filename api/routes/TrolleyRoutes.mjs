@@ -15,8 +15,8 @@ api.route('/:id')
     .delete( TrolleyController.destroy);
 
 // add, delete plants trolley//
-api.post('/:id/add/:id_plant', TrolleyController.add);
-api.delete('/:id/delete/:id_plant', TrolleyController.remove)
+api.put('/:id/add/:id_plant', TrolleyController.add);
+api.delete('/:id/remove/:id_plant', TrolleyController.remove)
 
 export default api;
 

@@ -11,25 +11,27 @@ export function index(__, res) {
 }
 
 export function show(req, res) {
-    Plant.find({_id: req.params.id}, (err, user) => {
-        if(err){
-            res.status(404).send({message: 'Usuario no encontrado'});
-        }else{
-            res.send({user});
-        }
+    Plant.find({_id: req.params.id}, (err, plant) => {
+        if(err)
+            res.status(500).send({message: 'Error al buscar planta'});
+        
+        if(!plant)
+            res.status(404).send({message: 'Plant not found'});
+        
+        res.send(plant)
     })
 }
 
 export function create(req, res) {
     const newPlant = new Plant({
         name: req.body.name,
-        especie: req.body.especie,
-        agua: req.body.agua,
-        tamaño: req.body.tamaño,
+        specie: req.body.specie,
+        water: req.body.water,
+        size: req.body.size,
     });
     newPlant.save( (err, plant) => {
         if(err){
-            res.status(500).send({message: 'Error al crear nueva planta'});
+            res.status(500).send({message: 'Error al crear nueva planta', err});
        }else{
            res.send(plant);
        }
@@ -56,8 +58,8 @@ export function destroy(req, res){
     (err, deleted) => {
         if(err){
             res.status(500).send("error");
-       }else{
+        }else{
             res.send({message: 'Planta borrada exitosamente', deleted});
-       }
+        }
    })
 }
