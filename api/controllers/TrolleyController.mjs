@@ -1,4 +1,5 @@
 import Trolley from '../models/TrolleyModel.mjs'
+import Plant from '../models/PlantModel.mjs'
 export function index(__, res) {
     Trolley.find({}, (err, plant) => {
         if(err){
@@ -55,6 +56,38 @@ export function destroy(req, res){
             res.status(500).send("error");
        }else{
             res.send({message: 'Carrito vaciado exitosamente', deleted});
+       }
+   })
+}
+
+
+//buscar carrito, buscar planta y hacerle un push 
+export function add(req,res){
+   Plant.findById(id,(err, plant) => {
+    if(err){
+        res.status(500).send({message: 'Error planta no existe', err: err});
+    }else{
+        Trolley.findById(id,(err,troll) => {
+            if(err){
+                res.status(500).send({message: 'Error carro no existe', err: err});
+            }else{
+                troll.push(plant)
+            }
+        })
+    }
+   })
+
+
+
+}
+
+export function remove(req,res){
+    newPlantTrolley.findOneAndDelete({"user":req.params.id},
+    (err, remove) => {
+        if(err){
+            res.status(500).send("error");
+       }else{
+            res.send({message: 'Carrito vaciado exitosamente', remove});
        }
    })
 }
