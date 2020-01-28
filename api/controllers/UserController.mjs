@@ -22,28 +22,27 @@ export function show(req, res) {
 }
 
 export function create(req, res) {
-    const newUser = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        birthday: req.body.birthday,
-        phone: req.body.phone,
-        gender: req.body.gender
-        
-    });
     bcrypt.hash(req.body.password, 10, (err, hash) => {
         if(err){
             return res.status(500).send({message: `No se pudo crear el usuario ${err}`});
         }
-        newUser.password = hash;
+        const newUser = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            birthday: req.body.birthday,
+            phone: req.body.phone,
+            gender: req.body.gender,
+            password: hash
+        });
+        newUser.save( (err, user) => {
+            if(err) {
+                res.status(500).send({message: `No se pudo crear el usuario ${err}`});
+            } else {
+                res.send({user});
+            }
+        })
     });
-    newUser.save( (err, user) => {
-        if(err) {
-            res.status(500).send({message: `No se pudo crear el usuario ${err}`});
-        } else {
-            res.send({user});
-        }
-    })
 }
 
 export function update(req, res) {

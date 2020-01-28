@@ -35,7 +35,7 @@ export default mongoose.model('User', new mongoose.Schema({
     rol: {
         type: String,
         required: true,
-        enum: ['admin, user'],
+        enum: ['admin', 'user'],
         default: 'user'
     }
 }));
