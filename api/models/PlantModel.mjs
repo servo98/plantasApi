@@ -5,23 +5,23 @@ export default mongoose.model('Plant', new mongoose.Schema({
         type: String,
         required: true,
     },
-    especie: {
+    specie: {
         type: String,
         required: true,
         enum: ['luz','sombra','ambas']
     },
-    cantidadDeLuz:{
+    lightQuantity:{
         type: String,
         required: false,
         enum: ['constante','media','no necesaria']
 
     },
-    agua: {
+    water: {
         type: String,
         required: true,
         enum: ['unaVezAlaSemana','dosVecesALaSemana','diario']
      },
-    tamaño: {
+    size: {
         type: String,
         required: true,
         enum: ['pequeña','mediana','grande']
