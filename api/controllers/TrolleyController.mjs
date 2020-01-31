@@ -51,7 +51,7 @@ export function update(req, res) {
 }
 
 export function destroy(req, res){
-    Trolley.findOneAndDelete({"_id":req.params.id},
+    Trolley.findOneAndDelete({"_id":req.params.is},
     (err, deleted) => {
         if(err){
             res.status(500).send("error");
@@ -62,11 +62,11 @@ export function destroy(req, res){
 }
 
 export function showByUser(req, res) {
-    Trolley.find({"user": req.params.id}, (err, trolley) => {
+    Trolley.findOne({"user": req.params.id}, (err, trolley) => {
         if(err){
             res.status(404).send({message: 'Carro de compra no encontrado'});
         }else{
-            res.send({trolley});
+            res.send(trolley._id);
         }
     })
 }

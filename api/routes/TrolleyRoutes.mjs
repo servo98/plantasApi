@@ -8,6 +8,8 @@ api.route('/')
     .get(TrolleyController.index)
     .post([verifyAuth], TrolleyController.create);
 
+api.get('/trolleyByUser/:id', TrolleyController.showByUser)
+
 api.use('/:id', [verifyAuth])   
 api.route('/:id')
     .get(TrolleyController.show)
