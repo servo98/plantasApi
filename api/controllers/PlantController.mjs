@@ -28,6 +28,7 @@ export function create(req, res) {
         specie: req.body.specie,
         water: req.body.water,
         size: req.body.size,
+        price: req.body.price,
     });
     newPlant.save( (err, plant) => {
         if(err){

@@ -61,6 +61,16 @@ export function destroy(req, res){
    })
 }
 
+export function showByUser(req, res) {
+    Trolley.find({"user": req.params.id}, (err, trolley) => {
+        if(err){
+            res.status(404).send({message: 'Carro de compra no encontrado'});
+        }else{
+            res.send({trolley});
+        }
+    })
+}
+
 
 //buscar carrito, buscar planta y hacerle un push 
 export function add(req,res){
