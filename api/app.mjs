@@ -16,7 +16,7 @@ import TrolleyRoutes from './routes/TrolleyRoutes.mjs';
 
 dotenv.config();
 
-db.connect(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, process.env.DB_CLUSTER);
+db.init(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, process.env.DB_CLUSTER);
 
 /**
  * APP
