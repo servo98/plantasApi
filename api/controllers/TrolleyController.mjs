@@ -66,7 +66,7 @@ export function showByUser(req, res) {
         if(err){
             res.status(404).send({message: 'Carro de compra no encontrado'});
         }else{
-            res.send(trolley._id);
+            res.status(200).json({id: trolley._id});
         }
     })
 }

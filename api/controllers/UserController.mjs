@@ -1,5 +1,6 @@
 import User from '../models/UserModel.mjs'
 import bcrypt from 'bcrypt'
+import Trolley from '../models/TrolleyModel.mjs'
 
 export function index(req, res) {
     User.find({}, (err, users) => {
@@ -39,7 +40,17 @@ export function create(req, res) {
             if(err) {
                 res.status(500).send({message: `No se pudo crear el usuario ${err}`});
             } else {
-                res.send({user});
+                const newTrolley = new Trolley({
+                    user: user._id
+                });
+                newTrolley.save( (err, trolley) => {
+                    if(err){
+                        res.status(500).send({message: 'Error al crear nuevo carro', err: err});
+                   }else{
+                       res.send({trolley,user});
+                   }
+                })
+                
             }
         })
     });
@@ -59,7 +70,7 @@ export function update(req, res) {
 }
 
 export function destroy(req, res){
-    User.findOneAndDelete({"_id":req.params.id},req.body,
+    User.findOneAndDelete({"_id":req.params.id},
     (err, user) => {
         if(err){
             res.status(500).send("error")
