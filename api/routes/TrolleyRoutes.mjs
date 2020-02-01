@@ -6,7 +6,7 @@ const api = express.Router();
 
 api.route('/')
     .get(TrolleyController.index)
-    .post([verifyAuth], TrolleyController.create);
+    .post( TrolleyController.create);
 
 api.get('/trolleyByUser/:id', TrolleyController.showByUser)
 
