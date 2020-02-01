@@ -24,7 +24,10 @@ db.init(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, process.e
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
-app.use(cors())
+app.use(cors({
+    origin: 'https://plantasapp.now.sh',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }))
 
 /**
  * App routes
