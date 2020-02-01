@@ -24,7 +24,7 @@ db.init(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, process.e
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: ['https://plantasapp.now.sh'],
+    origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }))
 app.use(express.json());
