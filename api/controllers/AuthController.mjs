@@ -11,7 +11,7 @@ export function login(req, res) {
             res.status(404).send('Cradenciales inválidas o usuario no existe')
         }else if(bcrypt.compareSync(req.body.password, user.password)) {
             const token = jwt.encode({id: user.id}, process.env.JWT_TOKEN_SECRET);
-            res.json({token, id: user._id});
+            res.send({token, id: user._id});
         } else {
             res.status(403).send({message: 'invalid credentials'});
         }
