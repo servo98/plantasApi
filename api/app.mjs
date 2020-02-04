@@ -22,9 +22,23 @@ db.init(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, process.e
  * APP
  */
 const app = express();
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+  
+app.options('*', cors()) 
+app.use(cors(
+//     {
+//     credentials: true,
+//     origin: '*',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
+  ))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
-app.use(cors())
+
 
 /**
  * App routes
