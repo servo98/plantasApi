@@ -22,11 +22,14 @@ db.init(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, process.e
  * APP
  */
 const app = express();
-app.use(cors({
-    credentials: true,
-    origin: '*',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }))
+app.use(cors(
+//     {
+//     credentials: true,
+//     origin: '*',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
+  ))
+  app.options('*', cors()) 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
