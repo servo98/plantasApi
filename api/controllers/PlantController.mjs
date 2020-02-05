@@ -25,9 +25,9 @@ export function show(req, res) {
 export function create(req, res) {
     const newPlant = new Plant({
         name: req.body.name,
-        specie: req.body.specie,
-        water: req.body.water,
-        size: req.body.size,
+        
+         water: req.body.water,
+        lightQuantity: req.body.lightQuantity,
         price: req.body.price,
     });
     newPlant.save( (err, plant) => {

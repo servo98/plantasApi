@@ -7,12 +7,12 @@ export default mongoose.model('Plant', new mongoose.Schema({
     },
     specie: {
         type: String,
-        required: true,
+        required: false,
         enum: ['luz','sombra','ambas']
     },
     lightQuantity:{
         type: String,
-        required: false,
+        required: true,
         enum: ['constante','media','no necesaria']
 
     },
@@ -23,7 +23,7 @@ export default mongoose.model('Plant', new mongoose.Schema({
      },
     size: {
         type: String,
-        required: true,
+        required: false,
         enum: ['pequeña','mediana','grande']
     },
     stock: {

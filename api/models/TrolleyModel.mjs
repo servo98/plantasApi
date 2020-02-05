@@ -9,6 +9,9 @@ export default mongoose.model('Trolley', new mongoose.Schema({
         {
             type : mongoose.Schema.ObjectId,
             ref : 'plant',
+            plantNames: ''
+            
         }
+    
     ] 
 }))
