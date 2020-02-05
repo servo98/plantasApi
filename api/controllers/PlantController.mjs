@@ -1,25 +1,28 @@
 import Plant from '../models/PlantModel.mjs'
 
 export function index(__, res) {
-    Plant.find({}, (err, plant) => {
-        if(err){
-            res.status(500).send({message: 'Error al buscar plantas'});
-        }else{
-            res.send(plant)
-        }
-    });
+    Plant.find({})
+        .then(plants => {
+            if(!plants)
+                return res.status(404).send({message: 'No hay plantas registradas'});
+
+            return res.send({plants});
+        })
+        .catch(err => {
+            return res.status(500).send({message: 'Error al buscar plantas', err});
+        });
 }
 
 export function show(req, res) {
-    Plant.find({_id: req.params.id}, (err, plant) => {
-        if(err)
-            res.status(500).send({message: 'Error al buscar planta'});
-        
-        if(!plant)
-            res.status(404).send({message: 'Plant not found'});
-        
-        res.send(plant)
-    })
+    Plant.findOne({_id: req.params.id})
+        .then(plant => {
+            if(!plant)
+                return res.status(404).send({message: 'Planta no encontrada'})
+            return res.send({plant})
+        })
+        .catch(err => {
+            return res.status(500).send({message: 'Error al buscar planta'});
+        });
 }
 
 export function create(req, res) {
@@ -30,13 +33,13 @@ export function create(req, res) {
         size: req.body.size,
         price: req.body.price,
     });
-    newPlant.save( (err, plant) => {
-        if(err){
-            res.status(500).send({message: 'Error al crear nueva planta', err});
-       }else{
-           res.send(plant);
-       }
-    })
+    newPlant.save()
+        .then(plant => {
+            return res.send({plant})
+        })
+        .catch(err => {
+            return res.status(500).send({message: 'Error al crear nueva planta', err});
+        });
 }
 
 export function update(req, res) {
