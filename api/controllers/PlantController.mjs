@@ -3,9 +3,6 @@ import Plant from '../models/PlantModel.mjs'
 export function index(__, res) {
     Plant.find({})
         .then(plants => {
-            if(!plants)
-                return res.status(404).send({message: 'No hay plantas registradas'});
-
             return res.send({plants});
         })
         .catch(err => {

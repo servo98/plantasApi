@@ -2,73 +2,71 @@ import Trolley from '../models/TrolleyModel.mjs'
 import Plant from '../models/PlantModel.mjs'
 
 export function index(__, res) {
-    console.log('llegamos aqca')
-    Trolley.find({}, (err, plant) => {
-        if(err){
-            res.status(500).send({message: 'Error al buscar carro de compra'});
-        }else{
-            res.send(plant)
-        }
-    });
+    Trolley.find({})
+        .then(trolleys => {
+            return res.send({trolleys});
+        })
+        .catch(err => {
+            res.status(500).send({message: 'Error al buscar carritos', err})
+        });
 }
 
 export function show(req, res) {
-    Trolley.find({"_id": req.params.id}, (err, trolley) => {
-        if(err){
-            res.status(404).send({message: 'Carro de compra no encontrado'});
-        }else{
-            res.send({trolley});
-        }
-    })
+    Trolley.find({"_id": req.params.id})
+        .then(trolley => {
+            if(!trolley)
+                return res.status(404).send({message: 'Carrito no encontrado'});
+            return res.send({trolley});
+        })
+        .catch(err => {
+            return res.status(500).send({message: 'Error al buscar carrito', err})
+        });
 }
 
 export function create(req, res){
     const newTrolley = new Trolley({
         user: req.body.userId
     });
-    newTrolley.save( (err, trolley) => {
-        if(err){
-            res.status(500).send({message: 'Error al crear nuevo carro', err: err});
-       }else{
-           res.send(trolley);
-       }
+    newTrolley.save()
+    .then(trolley => {
+        return res.send({trolley});
     })
+    .catch(err => {
+        res.status(500).send({message: 'Error al crear carrito', err});
+    });
 }
 
 export function update(req, res) {
-    Trolley.findOneAndUpdate({"_id":req.params.id},
-        req.body,
-        {
-            new: true
-        },
-    (err, trolley) => {
-        if(err){
-            res.status(500).send("error")
-        } else {
-            res.send({trolley})
-       }
-   })
+    Trolley.findOneAndUpdate({"_id":req.params.id}, req.body, { new: true })
+        .then(trolley => {
+            return res.send({trolley});
+        })
+        .catch(err => {
+            return res.status(500).send({message: 'Error al actualizar datos del carrito', err});
+        });
 }
 
 export function destroy(req, res){
-    Trolley.findOneAndDelete({"_id":req.params.is},
-    (err, deleted) => {
-        if(err){
-            res.status(500).send("error");
-       }else{
-            res.send({message: 'Carrito vaciado exitosamente', deleted});
-       }
-   })
+    Trolley.findOneAndDelete({"_id":req.params.is})
+        .then(trolley => {
+            return res.send({message: 'Trolley deleted', trolley})
+        })
+        .catch(err => {
+            return res.status(500).send({message: 'Error al borrar carrito', err})
+        });
 }
 
 export function showByUser(req, res) {
-    Trolley.findOne({"user": req.params.id}, (err, trolley) => {
-        if(err){
-            res.status(404).send({message: 'Carro de compra no encontrado'});
-        }else{
-            res.send(trolley._id);
-        }
-    })
+    Trolley.findOne({"user": req.params.id})
+        .then(trolley => {
+            if(!trolley)
+                return res.status(404).send({message: 'Trolley not found'});
+            
+            return res.send({trolley})
+        })
+        .catch(err => {
+            return res.status(500).send({message: 'Error al buscar carrito de persona', err});
+        });
 }
 
 
