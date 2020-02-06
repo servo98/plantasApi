@@ -12,7 +12,7 @@ export default mongoose.model('Plant', new mongoose.Schema({
     },
     lightQuantity:{
         type: String,
-        required: false,
+        required: true,
         enum: ['constante','media','no necesaria']
 
     },
@@ -28,13 +28,12 @@ export default mongoose.model('Plant', new mongoose.Schema({
     },
     stock: {
         type: Number,
-        required: false,
+        required: true,
         default: 0,
         min: 0, 
     },   
     image:{
-        type: String,
-        required: false
+        type: String
     },
     price: {
         type: Number,

@@ -1,120 +1,110 @@
 import Trolley from '../models/TrolleyModel.mjs'
 import Plant from '../models/PlantModel.mjs'
 
-export function index(__, res) {
-    Trolley.find({})
-        .then(trolleys => {
-            return res.send({trolleys});
-        })
-        .catch(err => {
-            res.status(500).send({message: 'Error al buscar carritos', err})
-        });
+export async function index(__, res) {
+
+    try {
+        const trolleys = await Trolley.find({});
+        return res.send({trolleys});
+
+    } catch(error) {
+        return res.status(500).send({message: 'Error al buscar carritos de compra', error})
+    }
 }
 
-export function show(req, res) {
-    Trolley.find({"_id": req.params.id})
-        .then(trolley => {
-            if(!trolley)
-                return res.status(404).send({message: 'Carrito no encontrado'});
-            return res.send({trolley});
-        })
-        .catch(err => {
-            return res.status(500).send({message: 'Error al buscar carrito', err})
-        });
+export async function show(req, res) {
+    try {
+        const trolley = await Trolley.find({"_id": req.params.id});
+        if(!trolley)
+            return res.status(404).send({message: 'Carrito no encontrado'});
+        return res.send({trolley});
+    } catch (error) {
+        return res.status(500).send({message: 'Error al buscar carrito', error});
+    }
 }
 
-export function create(req, res){
+export async function create(req, res){
     const newTrolley = new Trolley({
         user: req.body.userId
     });
-    newTrolley.save()
-    .then(trolley => {
+    try {
+        const trolley = await newTrolley.save();
         return res.send({trolley});
-    })
-    .catch(err => {
-        res.status(500).send({message: 'Error al crear carrito', err});
-    });
+    } catch (error) {
+        return res.status(500).send({message: 'Error al crear carrito', error});
+    }
 }
 
-export function update(req, res) {
-    Trolley.findOneAndUpdate({"_id":req.params.id}, req.body, { new: true })
-        .then(trolley => {
-            return res.send({trolley});
-        })
-        .catch(err => {
-            return res.status(500).send({message: 'Error al actualizar datos del carrito', err});
-        });
+export async function update(req, res) {
+    try {
+        const trolley = await Trolley.findOneAndUpdate({"_id":req.params.id}, req.body, { new: true });
+        if(!trolley)
+            return res.status(404).send({message: 'Carrito no encontrado'});
+        return res.send({trolley})
+    } catch (error) {
+        return res.status(500).send({message: 'Error al actualizar los datos del carrito', error});
+    }
 }
 
-export function destroy(req, res){
-    Trolley.findOneAndDelete({"_id":req.params.is})
-        .then(trolley => {
-            return res.send({message: 'Trolley deleted', trolley})
-        })
-        .catch(err => {
-            return res.status(500).send({message: 'Error al borrar carrito', err})
-        });
+export async function destroy(req, res){
+    try {
+        const trolley = await Trolley.findOneAndDelete({"_id":req.params.is});
+        return res.send({trolley});
+    } catch (error) {
+        return res.status(500).send({message: 'Error al borrar carrito', error});
+    }
 }
 
-export function showByUser(req, res) {
-    Trolley.findOne({"user": req.params.id})
-        .then(trolley => {
-            if(!trolley)
-                return res.status(404).send({message: 'Trolley not found'});
-            
-            return res.send({trolley})
-        })
-        .catch(err => {
-            return res.status(500).send({message: 'Error al buscar carrito de persona', err});
-        });
+export async function showByUser(req, res) {
+    try {
+        const trolley = await Trolley.findOne({"user": req.params.id});
+        if(!trolley)
+            return res.status(404).send({message: 'Carrito no encontrado para el usuario'});
+        return res.send({trolley});
+    } catch (error) {
+        return res.status(500).send({message: 'Error al buscar cartito del usuario', error});
+    }
 }
 
 
 //buscar carrito, buscar planta y hacerle un push 
-export function add(req,res){
-    Plant.findById(req.params.id_plant,(err, plant) => {
-        if(err)
-            return res.status(500).send({message: 'Error buscando planta', err});
-        
+export async function add(req,res){
+    try {
+        const plant = await Plant.findById(req.params.id_plant);
         if(!plant)
-            return res.status(404).send({message: 'No se encontró la planta seleccionada'})
-
-        Trolley.findById(req.params.id, (err2,troll) => {
-            if(err2)
-                return res.status(500).send({message: 'Error buscando carrito', err2});
-            if(!troll)
-                return res.status(404).send({message: 'Carrito no encontrado'})
-            
-            troll.plants.push(plant._id)
-            troll.save((err, trolley) => {
-                if(err)
-                    return res.status(500).send({message: 'Error al actualizar carrito'})
-                return res.send(trolley)
-            })
-        })
-   })
+            return res.status(404).send({message: 'No se encontró la planta solicitada'});
+        const trolley = await Trolley.findById(req.params.id);
+        if(!trolley)
+            return res.status(404).send({message: 'Carrito no encontrado'});
+        
+        trolley.plants.push(plant._id);
+    
+        const newTrolley = await trolley.save();
+        return res.send({trolley: newTrolley});
+        
+    } catch (error) {
+        return res.status(500).send({message: 'Error al agregar planta al carrito', error});
+    }
 }
 
-export function remove(req,res){
+export async function remove(req,res){
 
-    Trolley.findById(req.params.id, (err,troll) => {
-        if(err)
-            return res.status(500).send({message: 'Error buscando carrito', err});
-        if(!troll)
-            return res.status(404).send({message: 'Carrito no encontrado'})
-        
-        const indexOfPlant = troll.plants.indexOf(req.params.id_plant)
+    try {
+        const trolley = await Trolley.findById(req.params.id);
+        if(!trolley)
+            return res.status(404).send({message: 'Carrino no encontrado'});
+
+        const indexOfPlant = trolley.plants.indexOf(req.params.id_plant)
         if(indexOfPlant == -1)
             return res.status(404).send({message: 'No existe esa planta en el carrito seleccionado'})
         
-        
         troll.plants.splice(indexOfPlant, 1)
         
-        troll.save((err, trolley) => {
-            if(err)
-                return res.status(500).send({message: 'Error al actualizar carrito'})
-            return res.send({message: 'Carrito actualizado', trolley})
-        })
-    })
+        const newTrolley = await troll.save();
+        return res.send({trolley: newTrolley});
+        
+    } catch (error) {
+        return res.status(500).send({message: 'Error al eliminar planta del carrito', error});
+    }
         
 }

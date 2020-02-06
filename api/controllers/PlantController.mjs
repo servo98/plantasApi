@@ -29,6 +29,7 @@ export async function create(req, res) {
         water: req.body.water,
         size: req.body.size,
         price: req.body.price,
+        lightQuantity: req.body.lightQuantity
     });
     try {
         const plant = await newPlant.save();
@@ -42,6 +43,8 @@ export async function create(req, res) {
 export async function update(req, res) {
     try {
         const plant = await Plant.findOneAndUpdate({"_id":req.params.id}, req.body, { new: true })
+        if(!plant)
+            return res.status(404).send({message: 'Planta no encontrada'});
         return res.send({plant});
     } catch(error) {
         return res.status(500).send({message: 'Error al actualizar planta', error});
