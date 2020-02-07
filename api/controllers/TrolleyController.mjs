@@ -48,7 +48,7 @@ export async function update(req, res) {
 
 export async function destroy(req, res){
     try {
-        const trolley = await Trolley.findOneAndDelete({"_id":req.params.is});
+        const trolley = await Trolley.findOneAndDelete({"_id":req.params.id});
         return res.send({trolley});
     } catch (error) {
         return res.status(500).send({message: 'Error al borrar carrito', error});
@@ -57,7 +57,7 @@ export async function destroy(req, res){
 
 export async function showByUser(req, res) {
     try {
-        const trolley = await Trolley.findOne({"user": req.params.id});
+        const trolley = await Trolley.findOne({"user": req.body.decodedUserId});
         if(!trolley)
             return res.status(404).send({message: 'Carrito no encontrado para el usuario'});
         return res.send({trolley});
@@ -73,9 +73,9 @@ export async function add(req,res){
         const plant = await Plant.findById(req.params.id_plant);
         if(!plant)
             return res.status(404).send({message: 'No se encontró la planta solicitada'});
-        const trolley = await Trolley.findById(req.params.id);
+        const trolley = await Trolley.findOne({"user": req.body.decodedUserId});
         if(!trolley)
-            return res.status(404).send({message: 'Carrito no encontrado'});
+            return res.status(404).send({message: 'Carrito no encontrado para el usuario'});
         
         trolley.plants.push(plant._id);
     
@@ -90,9 +90,9 @@ export async function add(req,res){
 export async function remove(req,res){
 
     try {
-        const trolley = await Trolley.findById(req.params.id);
+        const trolley = await Trolley.findOne({"user": req.body.decodedUserId});
         if(!trolley)
-            return res.status(404).send({message: 'Carrino no encontrado'});
+            return res.status(404).send({message: 'Carrino no encontrado para el usuario'});
 
         const indexOfPlant = trolley.plants.indexOf(req.params.id_plant)
         if(indexOfPlant == -1)

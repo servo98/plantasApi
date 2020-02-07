@@ -1,33 +1,43 @@
 import jwt from 'jwt-simple'
+import User from '../models/UserModel.mjs';
 
-export function verifyAuth(req, res, next) {
+export async function verifyAuth(req, res, next) {
     if(!req.headers.auth)
         return res.status(403).send({message: "Auth missing"})
 
     try {
         const payload = jwt.decode(req.headers.auth, process.env.JWT_TOKEN_SECRET);
-        req.body.userId = payload.id
-        //expira
-        // if(payload.exp) {
-        //     return res.status(401).send({message: 'Token expired'})
-        // }
+        const user = await User.find({_id: payload.id});
+        if(!user)
+            return res.status(403).send({message: 'User not found'});
+        
+        req.body.decodedUserId = payload.id
         
     } catch (error) {
-        return res.status(404).send({message: 'Invalid token'})
+        return res.status(404).send({message: 'Invalid token', error})
     }
-
     //guardar en cookie el token o algo asi
     next()
 
 }
 
-export function verifyUser(req, res, next) {
-    if(!req.body.userId){
-        return res.status(403).send({message: "User id missing"});
-    } else if(req.body.userId != req.params.id) {
-            res.status(403).send('Invalid user');
-    } else {
-        next()
-    }
+export async function onlyAdmin(req, res, next) {
+    if(!req.headers.auth)
+        return res.status(403).send({message: "Auth missing"})
 
+    try {
+        const payload = jwt.decode(req.headers.auth, process.env.JWT_TOKEN_SECRET);
+        const user = await User.find({_id: payload.id});
+        if(!user)
+            return res.status(403).send({message: 'User not found'});
+        if(user.rol !== 'admin')
+            return res.status(403).send({message: 'Only admin allowed'});
+        
+        req.body.decodedUserId = payload.id
+        
+    } catch (error) {
+        return res.status(404).send({message: 'Invalid token', error})
+    }
+    //guardar en cookie el token o algo asi
+    next()
 }

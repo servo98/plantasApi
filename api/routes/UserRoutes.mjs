@@ -1,6 +1,6 @@
 import express from 'express'
 import * as UserController from '../controllers/UserController.mjs'
-import {verifyAuth, verifyUser} from '../middlewares/auth.mjs'
+import {verifyAuth} from '../middlewares/auth.mjs'
 
 
 const api = express.Router();
@@ -9,7 +9,7 @@ api.route('/')
     .get(UserController.index)
     .post(UserController.create);
 
-api.use('/:id', [verifyAuth, verifyUser])
+// api.use('/:id')
 api.route('/:id')
     .get(UserController.show)
     .put(UserController.update)

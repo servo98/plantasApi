@@ -6,11 +6,11 @@ const api = express.Router();
 
 api.route('/')
     .get(TrolleyController.index)
-    .post([verifyAuth], TrolleyController.create);
+    .post(TrolleyController.create);
 
 api.get('/trolleyByUser/:id', TrolleyController.showByUser)
 
-api.use('/:id', [verifyAuth])   
+// api.use('/:id')   
 api.route('/:id')
     .get(TrolleyController.show)
     .put( TrolleyController.update)

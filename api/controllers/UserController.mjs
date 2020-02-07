@@ -1,31 +1,32 @@
 import User from '../models/UserModel.mjs'
 import bcrypt from 'bcrypt'
 
-export function index(req, res) {
-    User.find({}, (err, users) => {
-        if(err){
-            res.status(500).send({message: 'Error al buscar usuarios'});
-        }else{
-            res.send(users)
-        }
-    });
+export async function index(req, res) {
+    try {
+        const users = await User.find({});
+        return res.send({users});
+        
+    } catch (error) {
+        return res.status(500).send({message: 'Error al buscar usuarios', error})
+    }
 }
 
-export function show(req, res) {
-    User.find({_id: req.params.id}, (err, user) => {
-        if(err){
-            res.status(404).send({message: 'Usuario no encontrado'})
-        }else{
-            res.send({user})
+export async function show(req, res) {
+    try {
+        const user = await User.findOne({_id: req.params.id});
+        if(!user){
+            return res.status(404).send({message: 'Usuario no encontrado'});
         }
-    })
+        return res.send({user});
+        
+    } catch (error) {
+        return res.status(500).send({message: 'Error al mostrar usuario', error});
+    }
 }
 
-export function create(req, res) {
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
-        if(err){
-            return res.status(500).send({message: `No se pudo crear el usuario ${err}`});
-        }
+export async function create(req, res) {
+    try {
+        const hash = await bcrypt.hash(req.body.password, 10);
         const newUser = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -35,37 +36,29 @@ export function create(req, res) {
             gender: req.body.gender,
             password: hash
         });
-        newUser.save( (err, user) => {
-            if(err) {
-                res.status(500).send({message: `No se pudo crear el usuario ${err}`});
-            } else {
-                res.send({user});
-            }
-        })
-    });
+        const user = await newUser.save();
+        return res.send({user});
+        
+    } catch (error) {
+        res.status(500).send({message: 'Error al crear ususario', error});
+    }
 }
 
-export function update(req, res) {
-    User.findOneAndUpdate({"_id":req.params.id},req.body,{
-        new: true
-    },
-    (err, user) => {
-        if(err){
-            res.status(500).send("error")
-       }else{
-            res.send({user})
-       }
-   })
+export async function update(req, res) {
+    try {
+        const user = await User.findOneAndUpdate({"_id":req.params.id},req.body,{new: true});
+        return res.send({user});
+    } catch (error) {
+        return res.status(500).send({message: 'Error al actualizar usuario', error});
+    }
 }
 
-export function destroy(req, res){
-    User.findOneAndDelete({"_id":req.params.id},req.body,
-    (err, user) => {
-        if(err){
-            res.status(500).send("error")
-       }else{
-            res.send({message: 'User deleted', user})
-       }
-   })
+export async function destroy(req, res){
+    try {
+        const user = await User.findOneAndDelete({"_id":req.params.id});
+        return res.send({user});
+    } catch (error) {
+        return res.status(500).send({error});
+    }
 }
 
