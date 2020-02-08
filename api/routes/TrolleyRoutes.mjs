@@ -12,13 +12,13 @@ api.get('/trolleyByUser/:id', TrolleyController.showByUser)
 
 // api.use('/:id')   
 api.route('/:id')
-    .get(TrolleyController.show)
-    .put( TrolleyController.update)
-    .delete( TrolleyController.destroy);
+.put( TrolleyController.update)
+.delete( TrolleyController.destroy);
 
+api.get('/me', [verifyAuth], TrolleyController.show)
 // add, delete plants trolley//
-api.put('/:id/add/:id_plant', TrolleyController.add);
-api.delete('/:id/remove/:id_plant', TrolleyController.remove)
+api.put('/add/:id_plant', [verifyAuth], TrolleyController.add);
+api.delete('/remove/:id_plant', TrolleyController.remove)
 
 export default api;
 

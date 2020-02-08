@@ -1,4 +1,5 @@
-import User from '../models/UserModel.mjs'
+import User from '../models/UserModel.mjs';
+import Trolley from '../models/TrolleyModel.mjs';
 import bcrypt from 'bcrypt'
 
 export async function index(req, res) {
@@ -37,7 +38,12 @@ export async function create(req, res) {
             password: hash
         });
         const user = await newUser.save();
-        return res.send({user});
+        const newTrolley = new Trolley({
+            user: newUser._id
+        });
+        const trolley = await newTrolley.save();
+
+        return res.send({user, trolley});
         
     } catch (error) {
         res.status(500).send({message: 'Error al crear ususario', error});

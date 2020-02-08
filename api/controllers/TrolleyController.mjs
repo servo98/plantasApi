@@ -14,7 +14,7 @@ export async function index(__, res) {
 
 export async function show(req, res) {
     try {
-        const trolley = await Trolley.find({"_id": req.params.id});
+        const trolley = await Trolley.findOne({"user": req.body.decodedUserId}).populate('plants');
         if(!trolley)
             return res.status(404).send({message: 'Carrito no encontrado'});
         return res.send({trolley});
@@ -69,6 +69,7 @@ export async function showByUser(req, res) {
 
 //buscar carrito, buscar planta y hacerle un push 
 export async function add(req,res){
+    console.log(req.body.decodedUserId)
     try {
         const plant = await Plant.findById(req.params.id_plant);
         if(!plant)

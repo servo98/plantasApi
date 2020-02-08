@@ -7,11 +7,11 @@ export async function verifyAuth(req, res, next) {
 
     try {
         const payload = jwt.decode(req.headers.auth, process.env.JWT_TOKEN_SECRET);
-        const user = await User.find({_id: payload.id});
+        const user = await User.findOne({_id: payload.id});
         if(!user)
             return res.status(403).send({message: 'User not found'});
         
-        req.body.decodedUserId = payload.id
+        req.body.decodedUserId = user._id
         
     } catch (error) {
         return res.status(404).send({message: 'Invalid token', error})
