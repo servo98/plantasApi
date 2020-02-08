@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 export default mongoose.model('Trolley', new mongoose.Schema({
     user: { type : mongoose.Schema.ObjectId, 
         ref: "User",
@@ -8,7 +8,7 @@ export default mongoose.model('Trolley', new mongoose.Schema({
     plants: [ 
         {
             type : mongoose.Schema.ObjectId,
-            ref : 'plant',
+            ref : 'Plant',
         }
     ] 
 }))
