@@ -29,7 +29,8 @@ export async function create(req, res) {
         water: req.body.water,
         size: req.body.size,
         price: req.body.price,
-        lightQuantity: req.body.lightQuantity
+        lightQuantity: req.body.lightQuantity,
+        image: req.file.path
     });
     try {
         const plant = await newPlant.save();
